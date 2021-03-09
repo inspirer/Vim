@@ -8,7 +8,6 @@ import { Register, RegisterMode } from './../register/register';
 import { VimState } from './../state/vimState';
 import { TextEditor } from './../textEditor';
 import { BaseAction, RegisterAction } from './base';
-import { CommandNumber } from './commands/actions';
 import { TextObjectMovement } from '../textobject/textobject';
 import { reportLinesChanged, reportLinesYanked } from '../util/statusBarTextUtils';
 import { commandLine } from './../cmd_line/commandLine';
@@ -67,9 +66,7 @@ export abstract class BaseOperator extends BaseAction {
   }
 
   public doesRepeatedOperatorApply(vimState: VimState, keysPressed: string[]) {
-    const nonCountActions = vimState.recordedState.actionsRun.filter(
-      (x) => !(x instanceof CommandNumber)
-    );
+    const nonCountActions = vimState.recordedState.actionsRun.filter((x) => x.name !== 'cmd_num');
     const prevAction = nonCountActions[nonCountActions.length - 1];
     return (
       keysPressed.length === 1 &&
@@ -113,6 +110,7 @@ export abstract class BaseOperator extends BaseAction {
 
 @RegisterAction
 export class DeleteOperator extends BaseOperator {
+  public name = 'delete_op';
   public keys = ['d'];
   public modes = [Mode.Normal, Mode.Visual, Mode.VisualLine];
 
@@ -245,6 +243,7 @@ export class DeleteOperatorVisual extends BaseOperator {
 
 @RegisterAction
 export class YankOperator extends BaseOperator {
+  public name = 'yank_op';
   public keys = ['y'];
   public modes = [Mode.Normal, Mode.Visual, Mode.VisualLine];
   canBeRepeatedWithDot = false;
@@ -296,7 +295,7 @@ export class YankOperator extends BaseOperator {
     // Only change cursor position if we ran a text object movement
     let moveCursor = false;
     if (vimState.recordedState.actionsRun.length > 1) {
-      if (vimState.recordedState.actionsRun[1] instanceof TextObjectMovement) {
+      if (vimState.recordedState.actionsRun[1].name === 'textobj_movement') {
         moveCursor = true;
       }
     }

@@ -299,6 +299,7 @@ export class RecordedState {
 }
 
 export interface IBaseAction {
+  name: string;
   isMotion: boolean;
   isOperator: boolean;
   isCommand: boolean;

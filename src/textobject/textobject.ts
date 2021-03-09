@@ -21,6 +21,7 @@ import { getCurrentParagraphBeginning, getCurrentParagraphEnd } from './paragrap
 import { Position, TextDocument } from 'vscode';
 
 export abstract class TextObjectMovement extends BaseMovement {
+  name = 'textobj_movement';
   modes = [Mode.Normal, Mode.Visual, Mode.VisualBlock];
 
   public async execActionForOperator(position: Position, vimState: VimState): Promise<IMovement> {

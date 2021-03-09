@@ -13,6 +13,7 @@ import { Logger } from './src/util/logger';
 import { StatusBar } from './src/statusBar';
 import { VSCodeContext } from './src/util/vscodeContext';
 import { commandLine } from './src/cmd_line/commandLine';
+import { parse as parseFn } from './src/cmd_line/parser';
 import { configuration } from './src/configuration/configuration';
 import { globalState } from './src/state/globalState';
 import { taskQueue } from './src/taskQueue';
@@ -101,6 +102,8 @@ async function loadConfiguration() {
  * The extension's entry point
  */
 export async function activate(context: vscode.ExtensionContext, handleLocal: boolean = true) {
+  commandLine.parseFn = parseFn;
+
   // before we do anything else, we need to load the configuration
   await loadConfiguration();
 

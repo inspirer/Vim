@@ -209,6 +209,7 @@ class EnableExtension extends BaseCommand {
 
 @RegisterAction
 export class CommandNumber extends BaseCommand {
+  name = 'cmd_num';
   modes = [Mode.Normal, Mode.Visual, Mode.VisualLine, Mode.VisualBlock];
   keys = ['<number>'];
   isCompleteAction = false;
@@ -266,6 +267,7 @@ export class CommandNumber extends BaseCommand {
 
 @RegisterAction
 export class CommandRegister extends BaseCommand {
+  public name = 'cmd_register';
   modes = [Mode.Normal, Mode.Visual, Mode.VisualLine, Mode.VisualBlock];
   keys = ['"', '<character>'];
   isCompleteAction = false;
@@ -1466,6 +1468,7 @@ class CommandDeleteToLineEnd extends BaseCommand {
 
 @RegisterAction
 export class CommandYankFullLine extends BaseCommand {
+  public name = 'yank_full_line';
   modes = [Mode.Normal];
   keys = ['Y'];
 
@@ -2226,6 +2229,7 @@ class CommandTabPrevious extends BaseCommand {
 
 @RegisterAction
 export class ActionDeleteChar extends BaseCommand {
+  public name = 'delete_char';
   modes = [Mode.Normal];
   keys = ['x'];
   canBeRepeatedWithDot = true;
@@ -2250,6 +2254,7 @@ export class ActionDeleteChar extends BaseCommand {
 
 @RegisterAction
 export class ActionDeleteCharWithDeleteKey extends BaseCommand {
+  public name = 'delete_char_with_del';
   modes = [Mode.Normal];
   keys = ['<Del>'];
   runsOnceForEachCountPrefix = true;
@@ -2274,6 +2279,7 @@ export class ActionDeleteCharWithDeleteKey extends BaseCommand {
 
 @RegisterAction
 export class ActionDeleteLastChar extends BaseCommand {
+  public name = 'delete_last_char';
   modes = [Mode.Normal];
   keys = ['X'];
   canBeRepeatedWithDot = true;

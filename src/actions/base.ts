@@ -16,6 +16,8 @@ export abstract class BaseAction {
   public isOperator = false;
   public isCommand = false;
 
+  public name = '';
+
   /**
    * If true, the cursor position will be added to the jump list on completion.
    */

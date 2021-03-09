@@ -1,5 +1,5 @@
-import * as parser from './parser';
 import * as vscode from 'vscode';
+import { CommandLine as ParsedCommandLine } from './node';
 import { CommandLineHistory } from '../history/historyFile';
 import { Mode } from './../mode/mode';
 import { Logger } from '../util/logger';
@@ -10,9 +10,12 @@ import { configuration } from '../configuration/configuration';
 import { Register } from '../register/register';
 import { RecordedState } from '../state/recordedState';
 
+type ParseFunc = (input: string) => ParsedCommandLine;
+
 class CommandLine {
   private _history: CommandLineHistory;
   private readonly _logger = Logger.get('CommandLine');
+  public parseFn: ParseFunc | undefined = undefined;
 
   /**
    *  Index used for navigating commandline history with <up> and <down>
@@ -60,7 +63,7 @@ class CommandLine {
     }
 
     try {
-      const cmd = parser.parse(command);
+      const cmd = this.parseFn!(command);
       const useNeovim = configuration.enableNeovim && cmd.command && cmd.command.neovimCapable();
 
       if (useNeovim && vimState.nvim) {
